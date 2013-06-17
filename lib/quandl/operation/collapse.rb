@@ -11,6 +11,7 @@ class Collapse
     def perform(data, frequency)
       data = Parse.sort( data )
       data = collapse_and_log(data, frequency)
+      
       data
     end
     
@@ -35,9 +36,15 @@ class Collapse
         # consider the value for the next range
         collapsed_data[range] = value if inside_range?(date, range) && value.present?
       end
-      collapsed_data
+      to_table(collapsed_data)
     end
-  
+    
+    def to_table(data)
+      data.collect do |date, values|
+        values.unshift(date)
+      end
+    end
+    
     def frequency?(data)
       Guess.frequency(data)
     end
