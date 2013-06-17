@@ -5,15 +5,20 @@ module Quandl
 module Operation
 
 class Collapse
-  
-  include CommonLogger::PerformanceLog
-  
-  class << self
 
+  class << self
+  
     def perform(data, frequency)
       data = Parse.sort( data )
-      data = collapse(data, frequency)
+      data = collapse_and_log(data, frequency)
       data
+    end
+    
+    def collapse_and_log(*args)
+      t1 = Time.now
+      r = collapse(*args)
+      CommonLogger.debug "#{self.name}.perform (#{t1.elapsed.microseconds}ms)"
+      r
     end
   
     def collapse(data, frequency)
@@ -46,7 +51,7 @@ class Collapse
     end
   
   end
-  
+
 end
 end
 end

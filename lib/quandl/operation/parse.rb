@@ -11,7 +11,7 @@ class Parse
       data = csv(data)
       data = julian_string_to_integer(data)
       data = sort(data)
-      CommonLogger.debug "Operation::Parse.perform(data) (#{t1.elapsed.microseconds}ms)"
+      CommonLogger.debug "#{self.name}.perform (#{t1.elapsed.microseconds}ms)"
       data
     end
   

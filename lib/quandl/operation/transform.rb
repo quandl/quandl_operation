@@ -6,11 +6,16 @@ class Transform
   class << self
 
     def perform( data, type)
-      t1 = Time.now
       data = Parse.sort( data, :asc )
-      data = transform( data, type)
-      CommonLogger.debug "Operation::Transform.perform(data, #{type}) (#{t1.elapsed.microseconds}ms)"
+      data = transform_and_log( data, type)
       data
+    end
+    
+    def transform_and_log(*args)
+      t1 = Time.now
+      r = transform(*args)
+      CommonLogger.debug "#{self.name}.perform (#{t1.elapsed.microseconds}ms)"
+      r
     end
     
     def valid_transformation?(type)
