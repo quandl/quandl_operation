@@ -4,7 +4,7 @@ require "quandl/operation/version"
 
 Gem::Specification.new do |s|
   s.name        = "quandl_operation"
-  s.version     = ScopeBuilder::VERSION
+  s.version     = Quandl::Operation::VERSION
   s.authors     = ["Blkae Hilscher"]
   s.email       = ["blake@hilscher.ca"]
   s.homepage    = "http://blake.hilscher.ca/"

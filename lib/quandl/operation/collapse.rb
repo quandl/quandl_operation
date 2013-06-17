@@ -6,13 +6,13 @@ module Operation
 
 class Collapse
   
+  include CommonLogger::PerformanceLog
+  
   class << self
 
     def perform(data, frequency)
-      t1 = Time.now
       data = Parse.sort( data )
       data = collapse(data, frequency)
-      CommonLogger.debug "Operation::Collapse.perform([#{data.first.join(', ')},...], #{frequency}) (#{t1.elapsed.microseconds}ms)"
       data
     end
   

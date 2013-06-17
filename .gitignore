@@ -1,4 +1,4 @@
 /Gemfile.lock
 /pkg
 /tmp
-scope_builder-*
+quandl_operation-*
