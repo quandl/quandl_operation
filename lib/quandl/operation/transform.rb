@@ -1,4 +1,3 @@
-# collapse
 module Quandl
 module Operation
   
