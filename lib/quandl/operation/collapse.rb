@@ -41,7 +41,11 @@ class Collapse
     
     def to_table(data)
       data.collect do |date, values|
-        values.unshift(date)
+        if values.is_a?(Array)
+          values.unshift(date)
+        else
+          [date, values]
+        end
       end
     end
     
