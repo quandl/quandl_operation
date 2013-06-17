@@ -1,5 +1,5 @@
 # subclasses
-require 'operation/collapse/guess'
+require 'quandl/operation/collapse/guess'
 # collapse
 module Quandl
 module Operation
