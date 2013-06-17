@@ -6,6 +6,7 @@ class Transform
 
     def perform( data, type)
       data = Parse.sort( data, :asc )
+      data = Parse.values_to_float(data)
       data = transform_and_log( data, type)
       data
     end

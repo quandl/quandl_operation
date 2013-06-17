@@ -19,9 +19,10 @@ class Parse
   
     def csv(data)
       data = CSV.parse( data ) if data.is_a?(String)
+      data = values_to_float(data)
       data
     end
-  
+    
     def sort(data, order = :asc)
       data_order = sort_order?(data)
       # ascending
@@ -89,6 +90,20 @@ class Parse
       return data if data[0][0].is_a?(Integer) || data[0][0].is_a?(Date)
       # otherwise cast string jds to int
       data.collect{|r| r[0] = r[0].to_i; r  }
+    end
+    
+    def values_to_float(data)
+      # skip unless value is a string
+      return data unless data[0][1].is_a?(String)
+      # cast values to float
+      data.collect do |row|
+        new_row = [row[0]]
+        row[1..-1].each_with_index do |value, index|
+          value = value.to_f if value.is_a?(String)
+          new_row[index + 1] = value
+        end
+        new_row
+      end
     end
   
   end
