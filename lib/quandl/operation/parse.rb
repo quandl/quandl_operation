@@ -11,7 +11,7 @@ class Parse
       return [] if data.blank?
       t1 = Time.now
       data = csv(data)
-      data = julian_string_to_integer(data)
+      data = unknown_date_format_to_julian(data)
       data = sort(data)
       CommonLogger.debug "#{self.name}.perform (#{t1.elapsed.microseconds}ms)"
       data
@@ -47,7 +47,16 @@ class Parse
     def sort_desc(data)
       data.sort_by{|r| r[0] }.reverse
     end
-  
+    
+    def unknown_date_format_to_julian(data)
+      return data unless data.present? && data[0] && data[0][0]
+      date = data[0][0]
+      # formatted like: "2013-06-18"
+      return date_to_julian(data) if date.is_a?(String) && date =~ /[0-9]{4}-[0-9]{2}-[0-9]{2}/
+      # formatted like: "2456463"
+      return julian_string_to_integer(data)
+    end
+    
     def date_to_julian(data)
       return data if data[0][0].is_a?(Integer)
       # dont alter by reference
@@ -105,7 +114,7 @@ class Parse
         new_row
       end
     end
-  
+    
   end
   
 end
