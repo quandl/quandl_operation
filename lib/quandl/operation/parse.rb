@@ -49,7 +49,7 @@ class Parse
     end
     
     def unknown_date_format_to_julian(data)
-      return data unless data.present? && data[0] && data[0][0]
+      return data if data_missing_rows?(data)
       date = data[0][0]
       # formatted like: "2013-06-18"
       return date_to_julian(data) if date.is_a?(String) && date =~ /[0-9]{4}-[0-9]{2}-[0-9]{2}/
@@ -58,7 +58,7 @@ class Parse
     end
     
     def date_to_julian(data)
-      return data if data[0][0].is_a?(Integer)
+      return data if data_missing_rows?(data) || data[0][0].is_a?(Integer)
       # dont alter by reference
       result = []
       # for each row
@@ -78,7 +78,7 @@ class Parse
     end
   
     def julian_to_date(data)
-      return data if data[0][0].is_a?(Date)
+      return data if data_missing_rows?(data) || data[0][0].is_a?(Date)
       # dont alter by reference
       result = []
       # for each row
@@ -96,14 +96,14 @@ class Parse
   
     def julian_string_to_integer(data)
       # skip when already formatted correctly
-      return data if data[0][0].is_a?(Integer) || data[0][0].is_a?(Date)
+      return data if data_missing_rows?(data) || data[0][0].is_a?(Integer) || data[0][0].is_a?(Date)
       # otherwise cast string jds to int
       data.collect{|r| r[0] = r[0].to_i; r  }
     end
     
     def values_to_float(data)
       # skip unless value is a string
-      return data unless data[0][1].is_a?(String)
+      return data if data_missing_rows?(data) || !data[0][1].is_a?(String)
       # cast values to float
       data.collect do |row|
         new_row = [row[0]]
@@ -113,6 +113,14 @@ class Parse
         end
         new_row
       end
+    end
+    
+    def data_missing_rows?(data)
+      !data_has_rows?(data)
+    end
+    
+    def data_has_rows?(data)
+      data.is_a?(Array) && data[0].is_a?(Array) && data[0][0].present?
     end
     
   end
