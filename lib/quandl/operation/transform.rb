@@ -31,6 +31,7 @@ class Transform
       #Transforms table from actual data points
       #to differences between points (:diff)
       #or a ratio between points(:rdiff)
+      #or a ratio between the latest point and an earlier point (:rdiff_from)
       #If type is other than these two, nothing is done.
     
       # ensure that type is in the expected format
@@ -115,6 +116,8 @@ class Transform
             elsif initial[x].nil?
               initial[x] = curr_row[i][x]
               temparr[i][x] = 0.0
+            elsif curr_row[x] == 0
+              temparr[i][x] = nil
             else
               temparr[i][x] = ( Float(initial[x]) - Float(curr_row[x]) ) / Float(curr_row[x]) 
           end
