@@ -14,7 +14,7 @@ class Transform
     def transform_and_log(*args)
       t1 = Time.now
       r = transform(*args)
-      CommonLogger.debug "#{self.name}.perform (#{t1.elapsed.microseconds}ms)"
+      Quandl::Logger.debug "#{self.name}.perform (#{t1.elapsed.microseconds}ms)"
       r
     end
     
