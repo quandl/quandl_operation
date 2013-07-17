@@ -20,8 +20,17 @@ class Collapse
       Quandl::Logger.debug "#{self.name}.perform (#{t1.elapsed.microseconds}ms)"
       r
     end
+    
+    def valid_collapse?(type)
+      valid_collapses.include?( type )
+    end
+    
+    def valid_collapses
+      [ :daily, :weekly, :monthly, :quarterly, :annual ]
+    end
   
     def collapse(data, frequency)
+      return false unless valid_collapse?( type )
       # store the new collapsed data
       collapsed_data = {}
       range = find_end_of_range( data[0][0], frequency )
