@@ -11,10 +11,10 @@ class Transform
       data
     end
     
-    def transform_and_log(*args)
+    def transform_and_log( data, type)
       t1 = Time.now
-      r = transform(*args)
-      Quandl::Logger.debug "#{self.name}.perform (#{t1.elapsed.microseconds}ms)"
+      r = transform( data, type)
+      Quandl::Logger.debug "#{self.name}.perform(#{data.try(:count)} rows, #{type}) (#{t1.elapsed.microseconds}ms)"
       r
     end
     

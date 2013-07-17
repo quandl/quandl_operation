@@ -14,10 +14,10 @@ class Collapse
       data
     end
     
-    def collapse_and_log(*args)
+    def collapse_and_log(data, frequency)
       t1 = Time.now
-      r = collapse(*args)
-      Quandl::Logger.debug "#{self.name}.perform (#{t1.elapsed.microseconds}ms)"
+      r = collapse(data, frequency)
+      Quandl::Logger.debug "#{self.name}.perform(#{data.try(:count)} rows, #{frequency}) (#{t1.elapsed.microseconds}ms)"
       r
     end
     
