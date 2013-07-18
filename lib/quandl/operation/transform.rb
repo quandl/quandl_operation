@@ -19,7 +19,7 @@ class Transform
     end
     
     def valid_transformation?(type)
-      valid_transformations.include?( type )
+      valid_transformations.include?( type.try(:to_sym) )
     end
     
     def valid_transformations
@@ -34,9 +34,9 @@ class Transform
       #If type is other than these two, nothing is done.
     
       # ensure that type is in the expected format
-      type = type.to_sym
+      type = type.try(:to_sym)
       # nothing to do unless valid transform
-      return unless valid_transformation?( type )
+      return data unless valid_transformation?( type )
     
       temparr = Array.new
       #first make a keylist
