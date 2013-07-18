@@ -30,7 +30,7 @@ class Collapse
     end
   
     def collapse(data, frequency)
-      return data unless valid_collapse?( type )
+      return data unless valid_collapse?( frequency )
       # store the new collapsed data
       collapsed_data = {}
       range = find_end_of_range( data[0][0], frequency )
