@@ -104,6 +104,7 @@ class Transform
         #delete the first date in datapac (because there is no diff for that)
         data.delete_at(0)
       else
+        data = Parse.sort( data, :desc )
         cumulsum = Array.new(numcols,0)
         sumstarted = Array.new(numcols,false)
         #now build temparr
