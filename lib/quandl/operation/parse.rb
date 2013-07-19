@@ -12,7 +12,7 @@ class Parse
       t1 = Time.now
       data = csv(data)
       data = unknown_date_format_to_julian(data)
-      data = sort(data)
+      # data = sort(data)
       Quandl::Logger.debug "#{self.name}.perform (#{t1.elapsed.microseconds}ms)"
       data
     end
