@@ -5,7 +5,7 @@ require "quandl/operation/version"
 Gem::Specification.new do |s|
   s.name        = "quandl_operation"
   s.version     = Quandl::Operation::VERSION
-  s.authors     = ["Blkae Hilscher"]
+  s.authors     = ["Blake Hilscher"]
   s.email       = ["blake@hilscher.ca"]
   s.homepage    = "http://blake.hilscher.ca/"
   s.license     = "MIT"
@@ -22,4 +22,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "fivemat", "~> 1.2"
 
   s.add_runtime_dependency "activesupport", ">= 3.0.0"
+  s.add_runtime_dependency "quandl_logger", ">= 0.0.3"
 end

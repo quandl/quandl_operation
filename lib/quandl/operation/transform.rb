@@ -11,15 +11,15 @@ class Transform
       data
     end
     
-    def transform_and_log(*args)
+    def transform_and_log( data, type)
       t1 = Time.now
-      r = transform(*args)
-      CommonLogger.debug "#{self.name}.perform (#{t1.elapsed.microseconds}ms)"
+      r = transform( data, type)
+      Quandl::Logger.debug "#{self.name}.perform(#{data.try(:count)} rows, #{type}) (#{t1.elapsed.microseconds}ms)"
       r
     end
     
     def valid_transformation?(type)
-      valid_transformations.include?( type )
+      valid_transformations.include?( type.try(:to_sym) )
     end
     
     def valid_transformations
@@ -35,9 +35,9 @@ class Transform
       #If type is other than these two, nothing is done.
     
       # ensure that type is in the expected format
-      type = type.to_sym
+      type = type.try(:to_sym)
       # nothing to do unless valid transform
-      return unless valid_transformation?( type )
+      return data unless valid_transformation?( type )
     
       temparr = Array.new
       #first make a keylist
@@ -129,6 +129,7 @@ class Transform
           data[i] = [keylist[i], temparr[i]].flatten
         end
       else
+        data = Parse.sort( data, :desc )
         cumulsum = Array.new(numcols,0)
         sumstarted = Array.new(numcols,false)
         #now build temparr

@@ -11,18 +11,26 @@ class Collapse
     def perform(data, frequency)
       data = Parse.sort( data )
       data = collapse_and_log(data, frequency)
-      
       data
     end
     
-    def collapse_and_log(*args)
+    def collapse_and_log(data, frequency)
       t1 = Time.now
-      r = collapse(*args)
-      CommonLogger.debug "#{self.name}.perform (#{t1.elapsed.microseconds}ms)"
+      r = collapse(data, frequency)
+      Quandl::Logger.debug "#{self.name}.perform(#{data.try(:count)} rows, #{frequency}) (#{t1.elapsed.microseconds}ms)"
       r
+    end
+    
+    def valid_collapse?(type)
+      valid_collapses.include?( type.try(:to_sym) )
+    end
+    
+    def valid_collapses
+      [ :daily, :weekly, :monthly, :quarterly, :annual ]
     end
   
     def collapse(data, frequency)
+      return data unless valid_collapse?( frequency )
       # store the new collapsed data
       collapsed_data = {}
       range = find_end_of_range( data[0][0], frequency )

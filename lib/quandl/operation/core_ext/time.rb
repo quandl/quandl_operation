@@ -7,7 +7,7 @@ class Time
       result = block.call
       message = "#{message} (#{timer.elapsed.microseconds}ms)"
       puts message
-      Rails.logger.debug message
+      Quandl::Logger.info message
       result
     end
   
