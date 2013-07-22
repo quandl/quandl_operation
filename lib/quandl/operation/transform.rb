@@ -107,24 +107,25 @@ class Transform
       elsif type == :rdiff_from
         num_rows = keylist.length - 1 
         initial = Array.new(numcols,nil)
-        num_rows.downto(1) do |i|
+        num_rows.downto(0) do |i|
           temparr[i] = []
           curr_row = data[i][1..-1]
           0.upto(numcols-1) do |x|
             if curr_row[x].nil?
               temparr[i][x] = nil
             elsif initial[x].nil?
-              initial[x] = curr_row[i][x]
+              initial[x] = curr_row[x]
               temparr[i][x] = 0.0
             elsif curr_row[x] == 0
               temparr[i][x] = nil
             else
               temparr[i][x] = ( Float(initial[x]) - Float(curr_row[x]) ) / Float(curr_row[x]) 
+            end
           end
         end
 
 
-        1.upto(keylist.length-1) do |i|
+        0.upto(keylist.length-1) do |i|
           data[i] = [keylist[i], temparr[i]].flatten
         end
       else
