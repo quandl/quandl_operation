@@ -23,7 +23,7 @@ class Transform
     end
     
     def valid_transformations
-      [ :diff, :rdiff, :cumul, :normalize ]
+      [ :diff, :rdiff, :cumul, :normalize, :rdiff_from ]
     end
   
     def transform( data, type)
@@ -31,6 +31,7 @@ class Transform
       #Transforms table from actual data points
       #to differences between points (:diff)
       #or a ratio between points(:rdiff)
+      #or a ratio between the latest point and an earlier point (:rdiff_from)
       #If type is other than these two, nothing is done.
     
       # ensure that type is in the expected format
@@ -103,6 +104,29 @@ class Transform
 
         #delete the first date in datapac (because there is no diff for that)
         data.delete_at(0)
+      elsif type == :rdiff_from
+        num_rows = keylist.length - 1 
+        initial = Array.new(numcols,nil)
+        num_rows.downto(1) do |i|
+          temparr[i] = []
+          curr_row = data[i][1..-1]
+          0.upto(numcols-1) do |x|
+            if curr_row[x].nil?
+              temparr[i][x] = nil
+            elsif initial[x].nil?
+              initial[x] = curr_row[i][x]
+              temparr[i][x] = 0.0
+            elsif curr_row[x] == 0
+              temparr[i][x] = nil
+            else
+              temparr[i][x] = ( Float(initial[x]) - Float(curr_row[x]) ) / Float(curr_row[x]) 
+          end
+        end
+
+
+        1.upto(keylist.length-1) do |i|
+          data[i] = [keylist[i], temparr[i]].flatten
+        end
       else
         data = Parse.sort( data, :desc )
         cumulsum = Array.new(numcols,0)
