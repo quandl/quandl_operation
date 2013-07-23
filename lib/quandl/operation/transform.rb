@@ -14,7 +14,7 @@ class Transform
     def transform_and_log( data, type)
       t1 = Time.now
       r = transform( data, type)
-      Quandl::Logger.debug "#{self.name}.perform(#{data.try(:count)} rows, #{type}) (#{t1.elapsed.microseconds}ms)"
+      Quandl::Logger.debug "#{self.name}.perform(#{data.try(:count)} rows, #{type}) (#{t1.elapsed.microseconds}ms)" if t1.elapsed_ms > 1
       r
     end
     
