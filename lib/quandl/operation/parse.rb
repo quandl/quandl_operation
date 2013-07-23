@@ -13,7 +13,7 @@ class Parse
       data = csv(data)
       data = unknown_date_format_to_julian(data)
       # data = sort(data)
-      Quandl::Logger.debug "#{self.name}.perform (#{t1.elapsed.microseconds}ms)" if t1.elapsed_ms > 1
+      Quandl::Logger.debug "#{self.name}.perform (#{t1.elapsed.microseconds}ms)" if t1.elapsed.microseconds > 1
       data
     end
   

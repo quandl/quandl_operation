@@ -14,7 +14,7 @@ class Guess
       gap = ensure_positive_gap(gap)
       # determine the freq from the size of the smallest gap
       freq = frequency_from_gap(gap)
-      Quandl::Logger.debug "#{self.name}.perform (#{t1.elapsed.microseconds}ms)" if t1.elapsed_ms > 1
+      Quandl::Logger.debug "#{self.name}.perform (#{t1.elapsed.microseconds}ms)" if t1.elapsed.microseconds > 1
       freq
     end
   
