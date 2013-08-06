@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec", "~> 2.13"
   s.add_development_dependency "fivemat", "~> 1.2"
 
-  s.add_runtime_dependency "activesupport", "~> 3.0"
+  s.add_runtime_dependency "activesupport", ">= 3.0.0"
   
   s.add_runtime_dependency "quandl_logger", "~> 0.1"
   
