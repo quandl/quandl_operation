@@ -8,6 +8,8 @@ class Date
     when :quarterly then self.beginning_of_quarter
     when :annual    then self.beginning_of_year
     when :annually  then self.beginning_of_year
+    else
+      self
     end
   end
   
@@ -19,6 +21,8 @@ class Date
     when :quarterly then self.end_of_quarter
     when :annual    then self.end_of_year
     when :annually  then self.end_of_year
+    else
+      self
     end
   end
   
