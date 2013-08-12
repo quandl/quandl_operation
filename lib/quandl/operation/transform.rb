@@ -19,6 +19,10 @@ class Transform
     end
     
     def valid_transformation?(type)
+      valid?(type)
+    end
+    
+    def valid?(type)
       valid_transformations.include?( type.try(:to_sym) )
     end
     
