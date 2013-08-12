@@ -22,6 +22,10 @@ class Collapse
     end
     
     def valid_collapse?(type)
+      valid?(type)
+    end
+    
+    def valid?(type)
       valid_collapses.include?( type.try(:to_sym) )
     end
     
