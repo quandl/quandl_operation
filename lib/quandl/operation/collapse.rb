@@ -61,6 +61,15 @@ class Collapse
       end
     end
     
+    def collapses_greater_than(freq)
+      index = valid_collapses.index(freq.to_sym)
+      index.present? ? valid_collapses.slice( index + 1, valid_collapses.count ) : []
+    end
+    
+    def collapses_greater_than_or_equal_to(freq)
+      valid_collapses.slice( valid_collapses.index(freq.to_sym), valid_collapses.count )
+    end
+    
     def frequency?(data)
       Guess.frequency(data)
     end
