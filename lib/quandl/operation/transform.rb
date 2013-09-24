@@ -4,10 +4,18 @@ module Operation
 class Transform
   class << self
 
-    def perform( data, type)
+    def perform( data, type )
+      # original order
+      order = Parse.sort_order?(data)
+      # operations expect data in ascending order
       data = Parse.sort( data, :asc )
+      # operations expect float values
       data = Parse.values_to_float(data)
-      data = transform_and_log( data, type)
+      # transform
+      data = transform_and_log( data, type )
+      # return to original order
+      data = Parse.sort( data, :desc ) if order == :desc
+      # onwards
       data
     end
     
@@ -133,7 +141,6 @@ class Transform
           data[i] = [keylist[i], temparr[i]].flatten
         end
       else
-        data = Parse.sort( data, :desc )
         cumulsum = Array.new(numcols,0)
         sumstarted = Array.new(numcols,false)
         #now build temparr
