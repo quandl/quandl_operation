@@ -10,10 +10,16 @@ class Parse
     def perform(data)
       return [] if data.blank?
       t1 = Time.now
+      data = hash_to_array(data)
       data = csv(data)
       data = unknown_date_format_to_julian(data)
       # data = sort(data)
       Quandl::Logger.debug "#{self.name}.perform (#{t1.elapsed.microseconds}ms)" if t1.elapsed.microseconds > 1
+      data
+    end
+    
+    def hash_to_array(data)
+      data = data.collect{|k,v| [k] + v } if data.kind_of?(Hash)
       data
     end
   
