@@ -10,7 +10,7 @@ class Parse
     def perform(data)
       return [] if data.blank?
       t1 = Time.now
-      data = hash_to_array(data)
+      data = hash(data)
       data = csv(data)
       data = unknown_date_format_to_julian(data)
       # data = sort(data)
@@ -18,7 +18,7 @@ class Parse
       data
     end
     
-    def hash_to_array(data)
+    def hash(data)
       data = data.collect{|k,v| [k] + v } if data.kind_of?(Hash)
       data
     end
