@@ -1,3 +1,7 @@
+## 0.1.10
+
+* Parse can handle incoming data formatted as a hash of time => [value,value,value]
+
 ## 0.1.9
 
 * write failing spec for cumul. make spec pass
