@@ -24,7 +24,10 @@ class Parse
     end
   
     def csv(data)
-      data = CSV.parse( data ) if data.is_a?(String)
+      if data.is_a?(String)
+        # data = data.gsub('\n', "\n")
+        data = CSV.parse( data )
+      end
       data = values_to_float(data)
       data
     end
