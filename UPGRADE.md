@@ -1,3 +1,7 @@
+## 0.1.11
+
+* it should parse escaped csv data
+
 ## 0.1.10
 
 * Parse can handle incoming data formatted as a hash of time => [value,value,value]
