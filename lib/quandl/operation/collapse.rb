@@ -9,8 +9,15 @@ class Collapse
   class << self
   
     def perform(data, frequency)
-      data = Parse.sort( data )
+      # source order
+      order = Parse.sort_order?(data)
+      # operations expect data in ascending order
+      data = Parse.sort( data, :asc )
+      # collapse
       data = collapse_and_log(data, frequency)
+      # return to original order
+      data = Parse.sort( data, :desc ) if order == :desc
+      # onwards
       data
     end
     
@@ -40,13 +47,18 @@ class Collapse
       range = find_end_of_range( data[0][0], frequency )
       # iterate over the data
       data.each do |row|
-        # grab date and value
+        # grab date and values
         date, value = row[0], row[1..-1]
         value = value.first if value.count == 1
         # bump to the next range if it exceeds the current one
         range = find_end_of_range(date, frequency) unless inside_range?(date, range)
         # consider the value for the next range
-        collapsed_data[range] = value if inside_range?(date, range) && value.present?
+        if inside_range?(date, range) && value.present?
+          # merge this and previous row if nils are present
+          value = merge_row_values( value, collapsed_data[range] ) unless collapsed_data[range].nil?
+          # assign value
+          collapsed_data[range] = value
+        end
       end
       to_table(collapsed_data)
     end
@@ -59,6 +71,17 @@ class Collapse
           [date, values]
         end
       end
+    end
+    
+    def merge_row_values(top_row, bottom_row)
+      # merge previous values when nils are present
+      if top_row.is_a?(Array) && top_row.include?(nil)
+        # find nil indexes
+        indexes = find_each_index(top_row, nil)
+        # merge nils with previous values
+        indexes.each{|index| top_row[index] = bottom_row[index] }
+      end
+      top_row
     end
     
     def collapses_greater_than(freq)
@@ -80,6 +103,18 @@ class Collapse
   
     def find_end_of_range(date, frequency)
       Date.jd(date).end_of_frequency(frequency).jd
+    end
+  
+    def find_each_index(array, find)
+      found, index, q = -1, -1, []
+      while found
+        found = array[index+1..-1].index(find)
+        if found
+          index = index + found + 1
+          q << index
+        end
+      end
+      q
     end
   
   end
