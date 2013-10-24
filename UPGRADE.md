@@ -1,3 +1,8 @@
+## 0.1.12
+
+* Quandl::Operation::Collapse.perform will merge rows with nils
+
+
 ## 0.1.11
 
 * it should parse escaped csv data
