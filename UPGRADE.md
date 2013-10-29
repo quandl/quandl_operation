@@ -1,3 +1,8 @@
+## 0.1.13
+
+* add utilities to core_ext
+
+
 ## 0.1.12
 
 * Quandl::Operation::Collapse.perform will merge rows with nils
