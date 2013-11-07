@@ -43,7 +43,7 @@ describe Quandl::Operation::Collapse do
     r
   end
   
-  describe "#perform" do
+  describe ".perform" do
   
     let(:data){
       [[2456537, 56.2, nil, nil], 
@@ -62,7 +62,7 @@ describe Quandl::Operation::Collapse do
    
   end
   
-  describe "#collapse" do
+  describe ".collapse" do
   
     it 'should handle data sets with one data point only' do
     
@@ -97,6 +97,32 @@ describe Quandl::Operation::Collapse do
       subject.collapse( data, :annual ).count.should eq 1
     end
    
+  end
+  
+  describe ".collapses_greater_than" do
+    it "should return minimum frequency given nil" do
+      subject.collapses_greater_than(nil).should eq []
+    end
+    it "should return weekly given daily" do
+      subject.collapses_greater_than('daily').should eq [:weekly, :monthly, :quarterly, :annual]
+    end
+    it "should return [] given annual" do
+      subject.collapses_greater_than(:annual).should eq []
+    end
+    
+  end
+  
+  describe ".collapses_greater_than_or_equal_to" do
+    it "should return minimum frequency given nil" do
+      subject.collapses_greater_than_or_equal_to(nil).should eq []
+    end
+    it "should return weekly given weekly" do
+      subject.collapses_greater_than_or_equal_to('weekly').should eq [:weekly, :monthly, :quarterly, :annual]
+    end
+    it "should return [] given annual" do
+      subject.collapses_greater_than_or_equal_to(:annual).should eq [:annual]
+    end
+    
   end
   
 end

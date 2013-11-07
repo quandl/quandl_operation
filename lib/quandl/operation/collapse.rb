@@ -85,11 +85,13 @@ class Collapse
     end
     
     def collapses_greater_than(freq)
+      return [] unless freq.respond_to?(:to_sym)
       index = valid_collapses.index(freq.to_sym)
       index.present? ? valid_collapses.slice( index + 1, valid_collapses.count ) : []
     end
     
     def collapses_greater_than_or_equal_to(freq)
+      return [] unless freq.respond_to?(:to_sym)
       valid_collapses.slice( valid_collapses.index(freq.to_sym), valid_collapses.count )
     end
     
