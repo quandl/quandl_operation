@@ -1,3 +1,8 @@
+## 0.1.15
+
+* Collapse.collapses_greater_than should return [] given nil
+
+
 ## 0.1.13
 
 * add utilities to core_ext
