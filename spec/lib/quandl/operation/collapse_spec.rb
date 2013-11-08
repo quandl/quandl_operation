@@ -59,18 +59,18 @@ describe Quandl::Operation::Collapse do
         [2456505, 55.4, 135964.0, nil], 
         [2456474, 50.9, 135860.0, nil]]
     end
-   
+    
+    it "should handle empty data" do
+      subject.perform( [], :weekly ).should eq []
+    end
+    
+    it "should handle empty data" do
+      subject.perform( [nil], :weekly ).should eq [nil]
+    end
+    
   end
   
   describe ".collapse" do
-    
-    it "should handle empty data" do
-      subject.collapse( [], :weekly ).should eq []
-    end
-    
-    it "should handle empty data" do
-      subject.collapse( [nil], :weekly ).should eq [nil]
-    end
     
     it 'should handle data sets with one data point only' do
     

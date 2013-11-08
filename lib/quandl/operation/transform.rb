@@ -5,6 +5,7 @@ class Transform
   class << self
 
     def perform( data, type )
+      return data unless data.is_a?(Array) && data.compact.present?
       # original order
       order = Parse.sort_order?(data)
       # operations expect data in ascending order

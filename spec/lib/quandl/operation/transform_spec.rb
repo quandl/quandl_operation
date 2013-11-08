@@ -5,15 +5,16 @@ describe Quandl::Operation::Transform do
   
   subject{ Quandl::Operation::Transform }
   
-  it "should handle empty data" do
-    subject.transform( [], :rdiff ).should eq []
-  end
-  
-  it "should handle empty data" do
-    subject.transform( [nil], :cumul ).should eq [nil]
-  end
-  
   describe ".perform" do
+    
+    it "should handle empty data" do
+      subject.perform( [], :rdiff ).should eq []
+    end
+  
+    it "should handle empty data" do
+      subject.perform( [nil], :cumul ).should eq [nil]
+    end
+  
     it "should rdiff_from" do
       data = [[1,3,5],[4,5,4],[5,15,20]]
       result = subject.perform(data, :rdiff_from)

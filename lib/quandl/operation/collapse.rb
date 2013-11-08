@@ -9,6 +9,7 @@ class Collapse
   class << self
   
     def perform(data, frequency)
+      return data unless data.is_a?(Array) && data.compact.present?
       # source order
       order = Parse.sort_order?(data)
       # operations expect data in ascending order
