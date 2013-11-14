@@ -1,3 +1,8 @@
+## 0.1.17
+
+* bump quandl_logger to 0.2.0
+
+
 ## 0.1.15
 
 * Collapse.collapses_greater_than should return [] given nil
