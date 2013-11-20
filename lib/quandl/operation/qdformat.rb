@@ -1,6 +1,6 @@
 class Quandl::Operation::QDFormat
   
-  attr_accessor :source_code, :code, :name, :description, :data, :column_names
+  attr_accessor :source_code, :code, :name, :description, :data, :headers
   
   class << self
   
@@ -16,7 +16,7 @@ class Quandl::Operation::QDFormat
         if line.blank?
           next
           
-        # - denotes new dataset  
+        # - denotes new dataset
         elsif line[0] == '-'
           # append current dataset
           datasets << attributes unless attributes.blank?
@@ -59,23 +59,28 @@ class Quandl::Operation::QDFormat
   
   end
   
-  def initialize(attributes)
-    self.full_code = attributes[:full_code]
-    self.name = attributes[:name]
-    self.description = attributes[:description]
-    self.column_names = attributes[:headers]
-    self.data = attributes[:data]
+  def initialize(attrs)
+    assign_attributes(attrs)
+  end
+  
+  def assign_attributes(attrs)
+    attrs.each do |key, value|
+      self.send("#{key}=", value) if self.respond_to?(key)
+    end
   end
   
   def inspect
     "<##{self.class.name}" + 
-    [:full_code, :name, :description, :column_names].inject({}){|m,k| m[k] = self.send(k); m }.to_s +
+    [:full_code, :name, :description, :headers].inject({}){|m,k| m[k] = self.send(k); m }.to_s +
     " >"
   end
   
-  def column_names=(names)
+  def headers=(names)
     names = names.split(",").collect(&:strip) if names.is_a?(String)
-    @column_names = Array(names).flatten
+    @headers = Array(names).flatten
+  end
+  def headers_as_qdf
+    headers.join(', ') if headers.is_a?(Array)
   end
   
   def full_code=(value)
@@ -88,8 +93,26 @@ class Quandl::Operation::QDFormat
     [source_code, code].join('/')
   end
   
+  def data_as_qdf
+    o = data
+    o = o.to_a if o.respond_to?(:to_a)
+    o = o.collect(&:to_csv).join if o.respond_to?(:to_csv) && o.first.is_a?(Array)
+    o = o.to_csv if o.respond_to?(:to_csv)
+    o
+  end
+  
   def data=(rows)
     @data = rows
+  end
+  
+  def to_qdf
+    output = [full_code]
+    [:name, :description].each do |attr_name|
+      output << "#{attr_name}: #{self.send(attr_name)}" if self.send(attr_name).present?
+    end
+    output << "headers: #{headers_as_qdf}" if headers_as_qdf.present?
+    output << data_as_qdf
+    output.join("\n")
   end
   
 end
