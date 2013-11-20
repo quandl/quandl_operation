@@ -29,9 +29,9 @@ describe Quandl::Operation::QDFormat do
       -----
     }
   }
+  let(:collection){ Quandl::Operation::QDFormat.parse(output) }
   
   describe ".parse" do
-    let(:collection){ Quandl::Operation::QDFormat.parse(output) }
     
     subject{ collection }
       
@@ -45,8 +45,21 @@ describe Quandl::Operation::QDFormat do
       its(:code){ should eq 'DATASET_CODE' }
       its(:name){ should eq 'Test dataset name' }
       its(:description){ should eq 'Dataset description' }
-      its(:column_names){ should eq ['Date', 'value', 'high', 'low'] }
+      its(:headers){ should eq ['Date', 'value', 'high', 'low'] }
       its(:data){ should eq data }
+    end
+  end
+  
+  describe "#to_qdf" do
+    subject{ collection.first }
+    its(:to_qdf){ should eq [full_code, name, description, headers, data].join("\n")}
+    
+    context "data Array" do
+      let(:data){ [['2013-11-20',9.94,11.2],['2013-11-19',9.94,11.2],['2013-11-18',9.94,11.2]] }
+      subject{ Quandl::Operation::QDFormat.new( full_code: "TEST/OIL", data: data ) }
+      
+      its(:to_qdf){ should eq ["TEST/OIL", data.collect(&:to_csv).join].join("\n") }
+      
     end
   end
   
