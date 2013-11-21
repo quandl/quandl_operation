@@ -3,6 +3,10 @@ class Quandl::Operation::QDFormat
   attr_accessor :source_code, :code, :name, :description, :data, :headers
   
   class << self
+    
+    def read(path)
+      parse(File.read(path).strip)
+    end
   
     def parse(output)
       datasets = []
@@ -67,6 +71,10 @@ class Quandl::Operation::QDFormat
     attrs.each do |key, value|
       self.send("#{key}=", value) if self.respond_to?(key)
     end
+  end
+  
+  def attributes
+    { name: name, source_code: source_code, code: code, description: description, column_names: headers, data: data }
   end
   
   def inspect
