@@ -1,3 +1,8 @@
+## 0.1.18
+
+* Add QDFormat
+
+
 ## 0.1.17
 
 * bump quandl_logger to 0.2.0
