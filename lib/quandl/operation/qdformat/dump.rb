@@ -4,6 +4,8 @@ class QDFormat
 
 class Dump
 
+  ATTRIBUTES = [:source_code, :code, :name, :description]
+
   class << self
 
     def nodes(*args)
@@ -27,7 +29,7 @@ class Dump
   end
 
   def attributes
-    attrs = [:source_code, :code, :name, :description].inject({}) do |memo, name|
+    attrs = ATTRIBUTES.inject({}) do |memo, name|
       name = name.to_s
       memo[name] = node.send(name) if node.respond_to?(name) && node.send(name).present?
       memo[name] = memo[name].gsub("\n", '\n') if memo[name].present?
