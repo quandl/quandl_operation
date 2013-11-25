@@ -1,3 +1,7 @@
+## 0.1.22
+
+* refactor QDFormat to support full yaml. metadata and data are seperated by a
+
 ## 0.1.21
 
 * QDFormat should handle new lines in attributes
