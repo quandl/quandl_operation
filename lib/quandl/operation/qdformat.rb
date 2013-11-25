@@ -13,7 +13,7 @@ class Quandl::Operation::QDFormat
     end
     
     def load_file(file_path)
-      Quandl::Operation::QDFormat::Load.from_file(input)
+      Quandl::Operation::QDFormat::Load.from_file(file_path)
     end
     
     def dump(nodes)

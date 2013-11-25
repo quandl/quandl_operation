@@ -1,5 +1,7 @@
 class Quandl::Operation::QDFormat::Load
   
+  SECTION_DELIMITER = '-'
+  
   class << self
   
     def from_file(path)
@@ -7,22 +9,32 @@ class Quandl::Operation::QDFormat::Load
     end
   
     def from_string(input)
-      nodes = [{ attributes: '', data: '' }]
-      input.each_line do |line|
+      nodes = []
+      section_type = :data
+      input.each_line do |rline|
         # strip whitespace
-        line = line.strip.rstrip
+        line = rline.strip.rstrip
         # ignore comments and blank lines
         next if line[0] == '#' || line.blank?
-        # code_format denotes the start of a new node
-        nodes << { attributes: '', data: '' } if line[0..2] == node_delimiter
-        # attribute_format denotes an attribute
+        
+        # are we looking at an attribute?
         if line =~ attribute_format
-          # add the attribute to attributes
-          nodes[-1][:attributes] += "#{line}\n"
-          # otherwise it must be data
-        else
-          nodes[-1][:data] += "#{line}\n"
+          # if we are leaving the data section
+          # then this is the start of a new node
+          nodes << { attributes: '', data: '' } if section_type == :data
+          # update the section to attributes
+          section_type = :attributes
+          
+        # have we reached the end of the attributes?
+        elsif line[0] == '-'
+          # update the section to data
+          section_type = :data
+          # skip to the next line
+          next
         end
+        # add the line to it's section in the current node.
+        # YAML must include whitespace
+        nodes[-1][section_type] += (section_type == :data) ? "#{line}\n" : rline
       end
       # append the current node
       nodes = parse_nodes(nodes)
@@ -49,10 +61,6 @@ class Quandl::Operation::QDFormat::Load
       end
     end
     
-    def node_delimiter
-      '---'
-    end
-  
     def attribute_format
       /^([a-z0-9_]+): (.+)/
     end

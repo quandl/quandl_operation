@@ -25,17 +25,20 @@ class Dump
   end
 
   def to_qdf
-    [attributes, column_names, data].compact.join
+    [ attributes, 
+      "-\n",
+      column_names,
+      data
+    ].compact.join
   end
 
   def attributes
     attrs = ATTRIBUTES.inject({}) do |memo, name|
       name = name.to_s
       memo[name] = node.send(name) if node.respond_to?(name) && node.send(name).present?
-      memo[name] = memo[name].gsub("\n", '\n') if memo[name].present?
       memo
     end
-    attrs.collect{|key,value| %Q{#{key}: "#{value}"} }.join("\n")
+    attrs.to_yaml[4..-1]
   end
   
   def data
