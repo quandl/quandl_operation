@@ -1,9 +1,7 @@
 class Quandl::Operation::QDFormat::Node
   
-  ATTRIBUTES = :source_code, :code, :name, :description, :column_names
+  ATTRIBUTES = :source_code, :code, :name, :description, :column_names, :data
   attr_accessor *ATTRIBUTES
-
-  attr_accessor :data
 
   def initialize(attrs)
     assign_attributes(attrs)

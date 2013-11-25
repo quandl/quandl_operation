@@ -1,3 +1,9 @@
+## 0.1.20
+
+* qdformat#to_qdf
+* QDFormat::Node#attributes should include data
+
+
 ## 0.1.18
 
 * Add QDFormat

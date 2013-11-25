@@ -52,25 +52,4 @@ describe Quandl::Operation::QDFormat do
     end
   end
   
-  describe "#to_qdf" do
-    subject{ collection.first }
-    
-    its(:to_qdf){ should eq %Q{source_code: SOURCE_CODE
-code: DATASET_CODE
-name: Test Dataset Name 1
-description: Here is a description with multiple lines.\\n This is the second line.
-Date,Value,High,Low
-2013-11-20,9.99470588235294,11.003235294117646,14.00164705882353
-2013-11-19,10.039388096885814,,14.09718770934256
-}}
-    
-    context "data Array" do
-      let(:data){ [['2013-11-20',9.94,11.2],['2013-11-19',9.94,11.2],['2013-11-18',9.94,11.2]] }
-      subject{ Quandl::Operation::QDFormat::Node.new( full_code: "TEST/OIL", data: data ) }
-      
-      its(:to_qdf){ should eq "source_code: TEST\ncode: OIL\n2013-11-20,9.94,11.2\n2013-11-19,9.94,11.2\n2013-11-18,9.94,11.2\n" }
-      
-    end
-  end
-  
 end
