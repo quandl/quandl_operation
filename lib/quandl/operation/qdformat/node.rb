@@ -30,7 +30,11 @@ class Quandl::Operation::QDFormat::Node
   def full_code
     [source_code, code].join('/')
   end
-
+  
+  def description=(value)
+    @description = value.to_s.gsub('\n', "\n")
+  end
+  
   def data=(rows)
     self.column_names = rows.shift unless rows.first.collect{|r| r.to_s.numeric? }.include?(true)
     @data = rows

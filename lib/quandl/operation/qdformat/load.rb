@@ -37,10 +37,6 @@ class Quandl::Operation::QDFormat::Load
       nodes.collect do |node|
         # parse attrs as yaml
         node[:attributes] = YAML.load( node[:attributes] )
-        # replace new line characters
-        node[:attributes].each do |key, value|
-          node[:attributes][key].gsub!('\n', "\n") if node[:attributes][key].respond_to?(:gsub!)
-        end
         # parse data as csv
         node[:attributes][:data] = CSV.parse(node[:data])
         node

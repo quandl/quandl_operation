@@ -33,13 +33,9 @@ class Dump
       memo[name] = memo[name].gsub("\n", '\n') if memo[name].present?
       memo
     end
-    attrs.to_yaml[4..-1]
+    attrs.collect{|key,value| %Q{#{key}: "#{value}"} }.join("\n")
   end
   
-  def description
-    record.description
-  end
-
   def data
     data = node.data.is_a?(Array) ? node.data.collect(&:to_csv).join : node.data
     data = data.to_csv if data.respond_to?(:to_csv)
