@@ -7,14 +7,14 @@ class Quandl::Operation::QDFormat::Load
     end
   
     def from_string(input)
-      nodes = []
+      nodes = [{ attributes: '', data: '' }]
       input.each_line do |line|
         # strip whitespace
         line = line.strip.rstrip
         # ignore comments and blank lines
         next if line[0] == '#' || line.blank?
         # code_format denotes the start of a new node
-        nodes << { attributes: '', data: '' } if line =~ code_format
+        nodes << { attributes: '', data: '' } if line[0..2] == node_delimiter
         # attribute_format denotes an attribute
         if line =~ attribute_format
           # add the attribute to attributes
@@ -40,8 +40,8 @@ class Quandl::Operation::QDFormat::Load
       end
     end
   
-    def code_format
-      /^code: (.+)/
+    def node_delimiter
+      '---'
     end
   
     def attribute_format
