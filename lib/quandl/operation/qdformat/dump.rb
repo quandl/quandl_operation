@@ -27,9 +27,17 @@ class Dump
   end
 
   def attributes
-    [:source_code, :code, :name, :description].
-    inject({}){|m,k| m[k.to_s] = node.send(k) unless node.send(k).blank?; m }.
-    to_yaml[4..-1]
+    attrs = [:source_code, :code, :name, :description].inject({}) do |memo, name|
+      name = name.to_s
+      memo[name] = node.send(name) if node.respond_to?(name) && node.send(name).present?
+      memo[name] = memo[name].gsub("\n", '\n') if memo[name].present?
+      memo
+    end
+    attrs.to_yaml[4..-1]
+  end
+  
+  def description
+    record.description
   end
 
   def data

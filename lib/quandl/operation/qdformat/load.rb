@@ -26,6 +26,7 @@ class Quandl::Operation::QDFormat::Load
       end
       # append the current node
       nodes = parse_nodes(nodes)
+      nodes = initialize_nodes(nodes)
       nodes
     end
     
@@ -34,12 +35,24 @@ class Quandl::Operation::QDFormat::Load
     
     def parse_nodes(nodes)
       nodes.collect do |node|
+        # parse attrs as yaml
         node[:attributes] = YAML.load( node[:attributes] )
+        # replace new line characters
+        node[:attributes].each do |key, value|
+          node[:attributes][key].gsub!('\n', "\n") if node[:attributes][key].respond_to?(:gsub!)
+        end
+        # parse data as csv
         node[:attributes][:data] = CSV.parse(node[:data])
+        node
+      end
+    end
+    
+    def initialize_nodes(nodes)
+      nodes.collect do |node|
         Quandl::Operation::QDFormat::Node.new(node[:attributes])
       end
     end
-  
+    
     def node_delimiter
       '---'
     end
