@@ -1,3 +1,8 @@
+## 0.1.21
+
+* QDFormat should handle new lines in attributes
+
+
 ## 0.1.20
 
 * qdformat#to_qdf
