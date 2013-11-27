@@ -1,4 +1,7 @@
-class Quandl::Operation::Parse
+module Quandl
+module Operation
+
+class Parse
   
   class << self
   
@@ -119,7 +122,7 @@ class Quandl::Operation::Parse
       # otherwise cast string jds to int
       output = []
       data.each_with_index do |row, index|
-        output << parse_jd_string(row) rescue raise_date_format_error!( row, index, :jd_string )
+        output << parse_jd_string(row) rescue raise_date_format_error!( row, index, :jd_strings_to_jd )
       end
       output
     end
@@ -130,7 +133,7 @@ class Quandl::Operation::Parse
       # otherwise cast string jds to int
       output = []
       data.each_with_index do |row, index|
-        output << parse_date_string(row).jd rescue raise_date_format_error!( row, index, :date_string )
+        output << parse_date_string(row).jd rescue raise_date_format_error!( row, index, :date_strings_to_jd )
       end
       output
     end
@@ -144,7 +147,7 @@ class Quandl::Operation::Parse
       return data if data_missing_rows?(data) || data[0][0].is_a?(Date)
       output = []
       data.each_with_index do |row, index|
-        output << parse_jd(row) rescue raise_date_format_error!( row, index, :jd )
+        output << parse_jd(row) rescue raise_date_format_error!( row, index, :jds_to_date )
       end
       output
     end
@@ -155,7 +158,7 @@ class Quandl::Operation::Parse
       # otherwise cast string jds to int
       output = []
       data.each_with_index do |row, index|
-        output << parse_date_string(row) rescue raise_date_format_error!( row, index, :date_string )
+        output << parse_date_string(row) rescue raise_date_format_error!( row, index, :date_strings_to_date )
       end
       output
     end
@@ -192,20 +195,19 @@ class Quandl::Operation::Parse
     protected
     
     def parse_jd(row)
-      # copy
-      row = row.dup
-      # ensure date is valid
-      raise if row[0] == 0
-      # parse
+      # parse jd_string
+      row = parse_jd_string(row)
+      # jd to date
       row[0] = Date.jd( row[0] )
-      # save result
+      # onwards
       row
     end
     
     def parse_jd_string(row)
       row = row.dup
       row[0] = row[0].to_i
-      raise if row[0] == 0
+      # dont allow dates that are before 0000
+      raise Errors::UnknownDateFormat if row[0] <= 1721058
       row
     end
     
@@ -216,7 +218,7 @@ class Quandl::Operation::Parse
       # split date into parts
       date_values = date.split('-').collect(&:to_i)
       # ensure date is valid
-      raise unless date_values.count == 3
+      raise Errors::UnknownDateFormat unless date_values.count == 3
       # add to row
       row[0] = Date.new( *date_values )
       row
@@ -225,11 +227,13 @@ class Quandl::Operation::Parse
     
     private
     
-    def raise_date_format_error!(row, index = 0, type = :date)
-      message = "UnknownDateFormat for date: '#{row[0]}' encountered while parsing data at: data[#{index}][0] #{row}"
-      raise Quandl::Operation::Errors::UnknownDateFormat, message
+    def raise_date_format_error!(row, index = 0, type = :none)
+      message = "UnknownDateFormat: '#{row[0]}', index: data[#{index}][0], strategy: '#{type}', row: #{row}"
+      raise Errors::UnknownDateFormat, message
     end
     
   end
   
+end
+end
 end
