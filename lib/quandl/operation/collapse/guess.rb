@@ -7,15 +7,12 @@ class Guess
   
     def frequency(data)
       return :annual unless data && data[0] && data[0][0]
-      t1 = Time.now
       # find the smallest point of difference between dates
       gap = find_average_gap(data)
       # ensure gap is not negative
       gap = ensure_positive_gap(gap)
       # determine the freq from the size of the smallest gap
-      freq = frequency_from_gap(gap)
-      Quandl::Logger.debug "#{self.name}.perform (#{t1.elapsed.microseconds}ms)" if t1.elapsed.microseconds > 1
-      freq
+      frequency_from_gap(gap)
     end
   
     def find_smallest_gap(data)

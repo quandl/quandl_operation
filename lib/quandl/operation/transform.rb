@@ -1,9 +1,10 @@
 module Quandl
 module Operation
-  
-class Transform
-  class << self
 
+class Transform
+  
+  class << self
+    
     def perform( data, type )
       return data unless data.is_a?(Array) && data.compact.present?
       # original order
@@ -13,18 +14,11 @@ class Transform
       # operations expect float values
       data = Parse.values_to_float(data)
       # transform
-      data = transform_and_log( data, type )
+      data = transform( data, type)
       # return to original order
       data = Parse.sort( data, :desc ) if order == :desc
       # onwards
       data
-    end
-    
-    def transform_and_log( data, type)
-      t1 = Time.now
-      r = transform( data, type)
-      Quandl::Logger.debug "#{self.name}.perform(#{data.try(:count)} rows, #{type}) (#{t1.elapsed.microseconds}ms)" if t1.elapsed.microseconds > 1
-      r
     end
     
     def valid_transformation?(type)
@@ -164,6 +158,7 @@ class Transform
     end
     
   end
+  
 end
 end
 end

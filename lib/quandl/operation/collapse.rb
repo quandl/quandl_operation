@@ -12,21 +12,16 @@ class Collapse
       return data unless data.is_a?(Array) && data.compact.present?
       # source order
       order = Parse.sort_order?(data)
+      # ensure data is in expected format
+      data = Parse.to_jd(data)
       # operations expect data in ascending order
       data = Parse.sort( data, :asc )
       # collapse
-      data = collapse_and_log(data, frequency)
+      data = collapse(data, frequency)
       # return to original order
       data = Parse.sort( data, :desc ) if order == :desc
       # onwards
       data
-    end
-    
-    def collapse_and_log(data, frequency)
-      t1 = Time.now
-      r = collapse(data, frequency)
-      Quandl::Logger.debug "#{self.name}.perform(#{data.try(:count)} rows, #{frequency}) (#{t1.elapsed.microseconds}ms)" if t1.elapsed.microseconds > 1
-      r
     end
     
     def valid_collapse?(type)
