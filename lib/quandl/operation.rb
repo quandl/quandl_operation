@@ -14,6 +14,7 @@ require 'quandl/operation/collapse'
 require 'quandl/operation/transform'
 require 'quandl/operation/parse'
 require 'quandl/operation/errors'
+require 'quandl/operation/qdate'
 
 module Quandl
   module Operation
