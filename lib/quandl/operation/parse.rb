@@ -133,7 +133,9 @@ class Parse
       # otherwise cast string jds to int
       output = []
       data.each_with_index do |row, index|
-        output << parse_date_string(row).jd rescue raise_date_format_error!( row, index, :date_strings_to_jd )
+        row = parse_date_string(row) rescue raise_date_format_error!( row, index, :date_strings_to_jd )
+        row[0] = row[0].jd
+        output << row
       end
       output
     end
