@@ -1,3 +1,9 @@
+## 0.2.1
+
+* assert valid arguments for collapse and transform
+* fix parse_date_string jd
+
+
 ## 0.2.0
 
 * rename Parse methods to be more informative
