@@ -6,7 +6,9 @@ class Transform
   class << self
     
     def perform( data, type )
-      return data unless data.is_a?(Array) && data.compact.present?
+      assert_valid_arguments!(data, type)
+      # nothing to do with an empty array
+      return data unless data.compact.present? 
       # original order
       order = Parse.sort_order?(data)
       # operations expect data in ascending order
@@ -19,6 +21,11 @@ class Transform
       data = Parse.sort( data, :desc ) if order == :desc
       # onwards
       data
+    end
+    
+    def assert_valid_arguments!(data, type)
+      raise ArgumentError, "data must be an Array. Received: #{data.class}" unless data.is_a?(Array)
+      raise ArgumentError, "frequency must be one of #{valid_transformations}. Received: #{type}" unless valid?(type)
     end
     
     def valid_transformation?(type)

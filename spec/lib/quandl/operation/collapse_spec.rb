@@ -46,10 +46,10 @@ describe Quandl::Operation::Collapse do
   describe ".perform" do
   
     let(:data){
-      [[2456537, 56.2, nil, nil], 
+      Quandl::Operation::Parse.to_date([[2456537, 56.2, nil, nil], 
        [2456518, 55.7, nil, nil], [2456506, nil, 136133.0, nil], 
        [2456487, 55.4, nil, nil], [2456475, nil, 135964.0, nil], 
-       [2456457, 50.9, nil, nil], [2456445, nil, 135860.0, nil]]
+       [2456457, 50.9, nil, nil], [2456445, nil, 135860.0, nil]])
     }
     
     it "should collapse data with nils" do
