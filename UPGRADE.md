@@ -1,6 +1,19 @@
+## 0.2.0
+
+* rename Parse methods to be more informative
+* add qdate
+* reject dates that preceed time
+* add Quandl::Operation::Errors
+* add Quandl::Operation::Errors::UnknownDateFormat
+* Quandl::Operation::Parse.perform(data)
+* outputs dates as Date instead of Integer
+* invalid dates raise date_format_error with informative message
+
+
 ## 0.1.22
 
 * refactor QDFormat to support full yaml. metadata and data are seperated by a
+
 
 ## 0.1.21
 
