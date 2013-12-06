@@ -12,11 +12,11 @@ require "active_support/core_ext/object"
 require 'quandl/operation/core_ext'
 require 'quandl/operation/collapse'
 require 'quandl/operation/transform'
-require 'quandl/operation/parse'
+require 'quandl/operation/sort'
 require 'quandl/operation/errors'
 require 'quandl/operation/qdate'
 
 module Quandl
-  module Operation
-  end
+module Operation
+end
 end

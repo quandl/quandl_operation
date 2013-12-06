@@ -10,15 +10,13 @@ class Transform
       # nothing to do with an empty array
       return data unless data.compact.present? 
       # original order
-      order = Parse.sort_order?(data)
+      order = Sort.order?(data)
       # operations expect data in ascending order
-      data = Parse.sort( data, :asc )
-      # operations expect float values
-      data = Parse.values_to_float(data)
+      data = Sort.asc(data)
       # transform
       data = transform( data, type)
       # return to original order
-      data = Parse.sort( data, :desc ) if order == :desc
+      data = Sort.desc(data) if order == :desc
       # onwards
       data
     end

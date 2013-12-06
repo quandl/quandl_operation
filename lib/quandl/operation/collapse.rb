@@ -12,16 +12,14 @@ class Collapse
       assert_valid_arguments!(data, type)
       # nothing to do with an empty array
       return data unless data.compact.present?
-      # ensure data is in expected format
-      data = Parse.to_jd(data)
       # source order
-      order = Parse.sort_order?(data)
+      order = Sort.order?(data)
       # operations expect data in ascending order
-      data = Parse.sort( data, :asc )
+      data = Sort.asc(data)
       # collapse
       data = collapse(data, type)
       # return to original order
-      data = Parse.sort( data, :desc ) if order == :desc
+      data = Sort.desc(data) if order == :desc
       # onwards
       data
     end
