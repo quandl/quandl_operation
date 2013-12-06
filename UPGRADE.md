@@ -1,3 +1,8 @@
+## 0.3.0
+
+* extract Parse to Quandl::Data. Add Sort
+
+
 ## 0.2.1
 
 * assert valid arguments for collapse and transform
