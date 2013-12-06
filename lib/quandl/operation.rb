@@ -13,7 +13,6 @@ require 'quandl/operation/core_ext'
 require 'quandl/operation/collapse'
 require 'quandl/operation/transform'
 require 'quandl/operation/sort'
-require 'quandl/operation/errors'
 require 'quandl/operation/qdate'
 
 module Quandl
