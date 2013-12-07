@@ -18,6 +18,7 @@ class Transform
       # return to original order
       data = Sort.desc(data) if order == :desc
       # onwards
+      data = Value.precision(data, 14)
       data
     end
     
