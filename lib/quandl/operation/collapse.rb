@@ -105,7 +105,7 @@ class Collapse
     end
   
     def find_end_of_range(date, frequency)
-      Date.jd(date).end_of_frequency(frequency).jd
+      date.end_of_frequency(frequency)
     end
   
     def find_each_index(array, find)
