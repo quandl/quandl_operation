@@ -1,3 +1,10 @@
+## 0.3.1
+
+* value precision should ignore nils
+* add Operation::Value with Value.precision for setting data value precision
+* refactor collapse operation to expect Date
+
+
 ## 0.3.0
 
 * extract Parse to Quandl::Data. Add Sort
