@@ -1,3 +1,9 @@
+## 0.4.0 
+
+
+
+
+
 ## 0.3.1
 
 * value precision should ignore nils
