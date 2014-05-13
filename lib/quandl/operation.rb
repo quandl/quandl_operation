@@ -7,7 +7,6 @@ require 'csv'
 require "active_support"
 require "active_support/inflector"
 require "active_support/core_ext/hash"
-require "active_support/core_ext/object"
 
 require 'quandl/operation/core_ext'
 require 'quandl/operation/collapse'
