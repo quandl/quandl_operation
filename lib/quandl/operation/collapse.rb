@@ -41,6 +41,9 @@ module Quandl
         def collapse(data, frequency)
           return data unless valid_collapse?(frequency)
 
+          # Special scenario where we are only fetching the `date` column
+          date_column_only = data.count > 0 && data[0].count == 1
+
           # store the new collapsed data
           collapsed_data = {}
           range = find_end_of_range(data[0][0], frequency)
@@ -56,7 +59,7 @@ module Quandl
             range = find_end_of_range(date, frequency) unless inside_range?(date, range)
 
             # consider the value for the next range
-            next unless inside_range?(date, range) && value.present?
+            next unless inside_range?(date, range) && (value.present? || date_column_only)
             value = merge_row_values(value, collapsed_data[range]) unless collapsed_data[range].nil?
             # assign value
             collapsed_data[range] = value

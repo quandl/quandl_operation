@@ -66,6 +66,20 @@ describe Quandl::Operation::Collapse do
     it 'should handle empty data' do
       subject.perform([nil], :weekly).should eq [nil]
     end
+
+    context 'where only a date column is provided' do
+      let(:data) do
+        [
+          [Date.parse('2013-09-01')], [Date.parse('2013-08-13')],
+          [Date.parse('2013-08-01')], [Date.parse('2013-07-13')],
+          [Date.parse('2013-07-01')], [Date.parse('2014-06-13')]
+        ]
+      end
+
+      it 'shoudl return the date collapsed' do
+        subject.perform(data, :annual).should eq [[Date.parse('2014-12-31')], [Date.parse('2013-12-31')]]
+      end
+    end
   end
 
   describe '.collapse' do
