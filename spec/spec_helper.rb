@@ -3,8 +3,8 @@ if ENV['COVERAGE']
   SimpleCov.start
 end
 
-$:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), *%w(.. lib))
 
-require "rspec"
-require "quandl/operation"
-require 'pry'
+require 'rspec'
+require 'rspec/its'
+require 'quandl/operation'

@@ -1,12 +1,12 @@
 require 'quandl/logger'
 
-require "quandl/operation/version"
+require 'quandl/operation/version'
 
 require 'csv'
 
-require "active_support"
-require "active_support/inflector"
-require "active_support/core_ext/hash"
+require 'active_support'
+require 'active_support/inflector'
+require 'active_support/core_ext/hash'
 
 require 'quandl/operation/core_ext'
 require 'quandl/operation/collapse'
@@ -16,6 +16,6 @@ require 'quandl/operation/qdate'
 require 'quandl/operation/value'
 
 module Quandl
-module Operation
-end
+  module Operation
+  end
 end
